@@ -1,8 +1,8 @@
 // Require external modules
-const express   = require('express');
-const http      = require('http');
-const socketio  = require('socket.io');
-const { connected } = require('process');
+const express           = require('express');
+const socketio          = require('socket.io');
+const http              = require('http');
+const { connected }     = require('process');
 
 // Require internal modules
 const joinUser          = require('./users.js').joinUser;

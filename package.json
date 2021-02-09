@@ -1,0 +1,24 @@
+{
+  "name": "rps-game-s",
+  "version": "1.0.0",
+  "description": "Rock Paper Scissor online game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaCosimo-Quattrone/rps-game-s.git"
+  },
+  "author": "Luca Cosimo Quattrone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucaCosimo-Quattrone/rps-game-s/issues"
+  },
+  "homepage": "https://github.com/LucaCosimo-Quattrone/rps-game-s#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
+  }
+}

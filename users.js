@@ -3,8 +3,8 @@ var users = [];
 
 // Remove user after the game ended
 function deleteUser(id) {
-    var i = users.findIndex(user => user.id == id);
-    users.splice(i, 1);
+    var usrs = users.findIndex(user => user.id == id);
+    users.splice(usrs, 1);
 }
 
 // Add new user to the array
