@@ -50,9 +50,9 @@ io.on('connection', socket => {
             // connection will be his opponent, so he will
             // join his room and starts the game
             var currentRoom = 'room'+rooms; 
-            var user = joinUser(socket.id, nickname, currentRoom);
+            var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
-            console.log("   [*] --> "+nickname+' join '+currentRoom);
+            console.log("   [*] --> "+info.nickname+' join '+currentRoom);
             if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
@@ -65,12 +65,12 @@ io.on('connection', socket => {
                 var opponent = usersArray[(usersArray.length - 2)];
                 var opponentPokemon = pokemonArray[opponent];
                 var message = "Game started! Your opponent is " + opponent;
-                var startSignal = { message: message, tplayer: 2, nickname: nickname, opponent: opponent, playerPokemon: pokemon, opponentPokemon: opponentPokemon };
+                var startSignal = { message: message, tplayer: 2, nickname: info.nickname, opponent: opponent, playerPokemon: info.pokemon, opponentPokemon: opponentPokemon };
                 socket.emit('startGame', startSignal);
 
                 // send startGame signal to the opponent
-                message = "Game started! Your opponent is " + nickname;
-                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: nickname, playerPokemon: opponentPokemon, opponentPokemon: pokemon };
+                message = "Game started! Your opponent is " + info.nickname;
+                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: info.nickname, playerPokemon: opponentPokemon, opponentPokemon: info.pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
 
                 rooms++;
@@ -82,9 +82,9 @@ io.on('connection', socket => {
             // even number of users connected
             // rooms++;
             var currentRoom = 'room'+rooms;
-            var user = joinUser(socket.id, nickname, currentRoom);
+            var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
-            console.log("   [*] --> "+nickname+' join '+currentRoom);
+            console.log("   [*] --> "+info.nickname+' join '+currentRoom);
             if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
@@ -98,12 +98,12 @@ io.on('connection', socket => {
                 var opponentPokemon = pokemonArray[opponent];
 
                 var message = "Game started! Your opponent is "+opponent;
-                var startSignal = { message: message, tplayer: 2, nickname: nickname, opponent: opponent, playerPokemon: pokemon, opponentPokemon: opponentPokemon};
+                var startSignal = { message: message, tplayer: 2, nickname: info.nickname, opponent: opponent, playerPokemon: info.pokemon, opponentPokemon: opponentPokemon};
                 socket.emit('startGame', startSignal);
                 
                 // send startGame signal to the opponent
-                message = "Game started! Your opponent is "+nickname;
-                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: nickname, playerPokemon: opponentPokemon, opponentPokemon: pokemon };
+                message = "Game started! Your opponent is "+info.nickname;
+                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: info.nickname, playerPokemon: opponentPokemon, opponentPokemon: info.pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
             }
         }
