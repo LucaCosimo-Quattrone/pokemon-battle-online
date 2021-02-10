@@ -107,13 +107,15 @@ socket.on('startGame', (startSignal) => {
     for (i = 0; i < pkmList.length; i++)
     {
         var p = pkmList[i];
+        for (k = 0; k < 3; k++)
+            console.log(p[k])
+
         if (startSignal.playerPokemon == p[0])
         {
             playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
             for (j = 0; i < 4; i++)
             {
                 document.getElementById('m' + i).value = playerPokemon.moves[i][0];
-                console.log("dentro for");
             }
             document.getElementById('img1').src = playerPokemon.sprite;
             document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
