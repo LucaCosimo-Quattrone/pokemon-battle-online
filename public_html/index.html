@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <link rel="icon" href="./images/icon.png">
@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>rdc-online-tris</title>
+        <title>Pokemon online</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -21,19 +21,24 @@
 
                 <div class="form-group">
                     <label>Nickname</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Nickname"
-                        name="nickname"
-                        id="nickname"
-                        required="required"
-                    />
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Nickname"
+                           name="nickname"
+                           id="nickname"
+                           required="required" />
+
+                    <select data-placeholder="Choose your pokemon..." multiple class="form-control" name="pokemon">
+                        <option value=""></option>
+                        <option>Charizard</option>
+                        <option>Blastoise</option>
+                        <option>Venusaur</option>
+                    </select>
                 </div>
 
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Entra</button>
+                    <button type="submit" class="btn btn-primary btn-block">Join</button>
                 </div>
 
             </form>

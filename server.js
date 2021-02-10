@@ -18,6 +18,7 @@ const io        = socketio(server);
 var rooms = 0;
 var connectedUsers = 0;
 var usersArray = [];
+var pokemonArray = [];
 
 const PORT      = process.env.PORT || 8080;
 const listener  = server.listen(PORT, () =>
@@ -31,10 +32,14 @@ io.on('connection', socket => {
 
     // endpoint used when a new user makes a connection
     // to the webserver
-    socket.on('join', ({nickname}) => {
-        console.log("[+] --> "+nickname+" joins game.");
+    socket.on('join', ({ nickname }), ({ pokemon }) => {
+        console.log("[+] --> "+nickname+" joins game");
         usersArray.push(nickname);
-        
+        pokemonArray.push({
+                            key: nickname,
+                            value: pokemon
+                          });
+
         // check how many users are connected to verify
         // if there is a room with one player that is
         // waiting or if a new room has to bed created
@@ -57,14 +62,15 @@ io.on('connection', socket => {
                 // opponent arrives, now the game can start
 
                 // send startGame signal to the player
-                var opponent = usersArray[(usersArray.length-2)]
-                var message = "Game started! Your opponent is "+opponent;
-                var startSignal = {message: message, tplayer: 2, nickname: nickname, opponent: opponent};
+                var opponent = usersArray[(usersArray.length - 2)];
+                var opponentPokemon = pokemonArray[opponent];
+                var message = "Game started! Your opponent is " + opponent;
+                var startSignal = { message: message, tplayer: 2, nickname: nickname, opponent: opponent, playerPokemon: pokemon, opponentPokemon: opponentPokemon };
                 socket.emit('startGame', startSignal);
 
                 // send startGame signal to the opponent
-                message = "Game started! Your opponent is "+nickname;
-                startSignal = {message: message, tplayer: 1, nickname: opponent, opponent: nickname};
+                message = "Game started! Your opponent is " + nickname;
+                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: nickname, playerPokemon: opponentPokemon, opponentPokemon: pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
 
                 rooms++;
@@ -88,14 +94,16 @@ io.on('connection', socket => {
                 // opponent arrives, now the game can start
 
                 // send startGame signal to the player
-                var opponent = usersArray[(usersArray.length-2)]
+                var opponent = usersArray[(usersArray.length - 2)]
+                var opponentPokemon = pokemonArray[opponent];
+
                 var message = "Game started! Your opponent is "+opponent;
-                var startSignal = {message: message, tplayer: 2, nickname: nickname, opponent: opponent};
+                var startSignal = { message: message, tplayer: 2, nickname: nickname, opponent: opponent, playerPokemon: pokemon, opponentPokemon: opponentPokemon};
                 socket.emit('startGame', startSignal);
                 
                 // send startGame signal to the opponent
                 message = "Game started! Your opponent is "+nickname;
-                startSignal = {message: message, tplayer: 1, nickname: opponent, opponent: nickname};
+                startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: nickname, playerPokemon: opponentPokemon, opponentPokemon: pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
             }
         }
@@ -105,28 +113,18 @@ io.on('connection', socket => {
     // endpoint used when one player makes a move
     // notify to the other player of the room which
     // cell has to be updated
-    socket.on('moveDone', (move) => {
+    socket.on('attackDone', (attack) => {
         var user = getUserById(socket.id);
-        socket.broadcast.to(user.room).emit('updateTris', move.cell);
+        socket.broadcast.to(user.room).emit('updateHp', attack);
     });
 
     // endpoint used when the player who made
     // last move win the game or the game ended
     // in a draw
     socket.on('result', (result) => { 
-        if(result.result == 0)
-        {
-            // draw
-            socket.emit('showResult', "Game ended with draw!");
-            var user = getUserById(socket.id);
-            socket.broadcast.to(user.room).emit('showResult', "Game ended with draw!");
-        }else
-        {
-            // player 1 or player 2 win
-            socket.emit('showResult', result.nickname+", you win!");
-            var user = getUserById(socket.id);
-            socket.broadcast.to(user.room).emit('showResult', "Game ended. "+result.nickname+" wins!");
-        }
+        socket.emit('showResult', result.nickname+", you win!");
+        var user = getUserById(socket.id);
+        socket.broadcast.to(user.room).emit('showResult', "Game ended. "+result.nickname+" wins!");
     });
 
     // endpoint used when the game ended,
@@ -152,14 +150,3 @@ io.on('connection', socket => {
         connectedUsers--;
     });
 });
-
-/*
-
-       0  |  1  |  2
-     _____|_____|_____
-       3  |  4  |  5
-     _____|_____|_____    
-       6  |  7  |  8
-          |     |
-
-*/

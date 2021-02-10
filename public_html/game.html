@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+﻿<!DOCTYPE html> 
 
 <html>
 
@@ -8,12 +8,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>rdc-online-tris</title>
+        <title>Pokemon battle</title>
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
        
 		<link rel="stylesheet" type="text/css" href="style.css">
-		<title>Tris</title>
+		<title>Pokemon battle</title>
 		<script src="/socket.io/socket.io.js"></script>
         <script src="script.js"></script>
 	</head>
@@ -23,43 +23,27 @@
            <div class="row" style="background-color: rgb(129, 129, 129); min-height: 100vh">
                 <div class="col-5" style="background-color: white">
                     <div class="row align-items-center h-100">
-                        <table align="center">
-                            <tr>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(0,0)" /></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(0,2)" /></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(0,4)" /></td>
-                            </tr>
-                            <tr>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                                <td>  </td>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                                <td>  </td>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                            </tr>
-                            <tr>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(2,0)" value="run external javascript"/></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(2,2)" value="run external javascript"/></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(2,4)" value="run external javascript"/></td>
-                            </tr>
-                            <tr>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                                <td>  </td>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                                <td>  </td>
-                                <td><img src="./../images/linea-divisoria-or.png" class="img-fluid" width="128" height="10"</tr>
-                            </tr>
-                            <tr>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(4,0)" value="run external javascript"/></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(4,2)" value="run external javascript"/></td>
-                                <td><img src="./../images/linea-divisoria-ve.png" class="img-fluid" width="10" height="128" /></td>
-                                <td><img src="./../images/quadrato-bianco.jpg" class="img-fluid" width="128" height="128" onClick="makeMove(4,4)" value="run external javascript"/></td>
-                            </tr>
-                        </table>   
+                        <table>
+                        <tr>
+                            <td id='hp1'>
+                            <td id='hp2'></td>
+                        </tr>
+                        <tr>
+                            <td id='pk1'></td>
+                            <td id='pk2'></td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' id='comment'></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='button' class='btn' id='m0'>
+                                <input type='button' class='btn' id='m1'>
+                                <input type='button' class='btn' id='m2'>
+                                <input type='button' class='btn' id='m3'>
+                            </td>
+                        </tr>
+                        </table>
                     </div>                 
                 </div>
                 <div class="col-1"></div>
@@ -81,7 +65,7 @@
                     </div>
                     <div class="row w-100 h-25" id="newGameLabel" style="background-color: rgb(129, 129, 129)">
                         <div class="text-center w-100">
-                            <a href="index.html" id="newGameButton" class="btn btn-primary btn-xl invisible">New game!</button>
+                            <a href="index.html" id="newGameButton" class="btn btn-primary btn-xl invisible">New game!</a>
                         </div>
                     </div>
                 </div>
