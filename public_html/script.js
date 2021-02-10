@@ -151,7 +151,7 @@ socket.on('showResult', (result) => {
 	document.getElementById('turnLabel').textContent = "";
 
 	// show the new game button
-	$("#newGameButton").removeClass('invisible').addClass('visible');
+	//$("#newGameButton").removeClass('invisible').addClass('visible');
 });
 
 function updateTurn()
