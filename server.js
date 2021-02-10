@@ -135,7 +135,7 @@ io.on('connection', socket => {
         // delete user from the array of connected users
         var user = getUserById(socket.id); 
         deleteUser(socket.id);
-        console.log("[-] --> "+user.nickname+" leaves the game.");
+        console.log("[-] --> " + user.nickname + " leaves the game.");
 
         // disconnect also the other player of
         // the room if he's connected
