@@ -106,26 +106,28 @@ socket.on('startGame', (startSignal) => {
     // Assign pokemon
     for (i = 0; i < pkmList.length; i++)
     {
-        console.log("dentro for --> " + player);
         var p = pkmList[i];
         for (k = 0; k < 3; k++)
-
-        if (startSignal.playerPokemon == p[0])
         {
-            playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
-            for (j = 0; i < 4; i++)
+            console.log("il pokemon attuale --> " + p[0] + " pokemon player --> " + startSignal.playerPokemon);
+            if (startSignal.playerPokemon == p[0])
             {
-                document.getElementById('m' + i).value = playerPokemon.moves[i][0];
+                playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
+                for (j = 0; i < 4; i++)
+                {
+                    document.getElementById('m' + i).value = playerPokemon.moves[i][0];
+                }
+                document.getElementById('img1').src = playerPokemon.sprite;
+                document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
             }
-            document.getElementById('img1').src = playerPokemon.sprite;
-            document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
+            else if (startSignal.opponentPokemon == p[0])
+            {
+                opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
+                document.getElementById('img2').src = opponentPokemon.sprite;
+                document.getElementById('hp2').innerHTML = '<p>HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
+            }
         }
-        else if (startSignal.opponentPokemon == p[0])
-        {
-            opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
-            document.getElementById('img2').src = opponentPokemon.sprite;
-            document.getElementById('hp2').innerHTML = '<p>HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
-        }
+
     }
     
 	// Update the turn label 
