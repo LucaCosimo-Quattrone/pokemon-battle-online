@@ -110,7 +110,7 @@ socket.on('startGame', (startSignal) => {
         {
             playerPokemon = new Pokemon(pkmList[i][0], pkmList[i][1], pkmList[i][3], pkmList[i][4]);
             for (j = 0; i < 4; i++) {
-                document.getElementById('m' + i).value = pkm.moves[i][0];
+                document.getElementById('m' + i).textContent = pkm.moves[i][0];
             }
             s1 = document.createElement('img');
             s1.src = pk1.sprite;
