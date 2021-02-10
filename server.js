@@ -50,7 +50,10 @@ io.on('connection', socket => {
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
             console.log("   [*] --> " + info.nickname + ' join ' + currentRoom);
-            if (io.nsps['/'].adapter.rooms[currentRoom].length != 2)
+            var clientsInRoom = io.nsps['/'].adapter.rooms[room];
+            var numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
+
+            if (numClients != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
@@ -81,8 +84,11 @@ io.on('connection', socket => {
             var currentRoom = 'room'+rooms;
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
-            console.log("   [*] --> "+info.nickname+' join '+currentRoom);
-            if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
+            console.log("   [*] --> " + info.nickname + ' join ' + currentRoom);
+            var clientsInRoom = io.nsps['/'].adapter.rooms[room];
+            var numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
+
+            if (numClients != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
