@@ -85,7 +85,7 @@ io.on('connection', socket => {
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
             console.log("   [*] --> " + info.nickname + ' join ' + currentRoom);
-            var clientsInRoom = io.nsps['/'].adapter.rooms[curentRoom];
+            var clientsInRoom = io.nsps['/'].adapter.rooms[currentRoom];
             var numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
 
             if (numClients != 2)
