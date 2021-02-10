@@ -1,5 +1,5 @@
 {
-  "name": "rps-game-s",
+  "name": "pokemon-game",
   "version": "1.0.0",
   "description": "Rock Paper Scissor online game",
   "main": "server.js",
@@ -19,6 +19,10 @@
   "homepage": "https://github.com/LucaCosimo-Quattrone/rps-game-s#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^3.1.1"
-  }
+    "socket.io": "^2.4.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "pkmg"
+  ]
 }
