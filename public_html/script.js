@@ -102,13 +102,12 @@ socket.on('startGame', (startSignal) => {
 	player = startSignal.tplayer;
     playerNickname = startSignal.nickname;
     opponentNickname = startSignal.opponent;
-
+    console.log(player);
     // Assign pokemon
     for (i = 0; i < pkmList.length; i++)
     {
         var p = pkmList[i];
         for (k = 0; k < 3; k++)
-            console.log(p[k])
 
         if (startSignal.playerPokemon == p[0])
         {
