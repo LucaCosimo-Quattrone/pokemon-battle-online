@@ -15,19 +15,19 @@ class Pokemon {
 }
 
 var pkmList = [
-    ['Charizard', 'https://img.pokemondb.net/sprites/black-white/anim/back-normal/charizard.gif', 'https://img.pokemondb.net/sprites/black-white/anim/normal/charizard.gif', 360, [
+    ['Charizard', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charizard.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/charizard.gif", 360, [
         ['Flamethrower', 'fire', 95, 0.95],
         ['Dragon Claw', 'dragon', 80, 0.95],
         ['Air slash', 'fly', 75, 0.85],
         ['Slash', 'normal', 70,]
     ]],
-    ['Blastoise', 'https://img.pokemondb.net/sprites/black-white/anim/back-normal/blastoise.gif', 'https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif', 362, [
+    ['Blastoise', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/blastoise.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif", 362, [
         ['Surf', 'water', 90, 0.95],
         ['Crunch', 'normal', 80, 0.95],
         ['Ice punch', 'ice', 75, 0.95],
         ['Flash cannon', 'steel', 80, 0.95]
     ]],
-    ['Venusaur', 'https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur-f.gif', 'https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur-f.gif', 364, [
+    ['Venusaur', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur-f.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur-f.gif", 364, [
         ['Petal Blizzard', 'grass', 90, 0.95],
         ['Sludge bomb', 'poison', 90, 0.95],
         ['Earthquake', 'ground', 100, 0.95],
@@ -104,26 +104,28 @@ socket.on('startGame', (startSignal) => {
     opponentNickname = startSignal.opponent;
 
     // Assign pokemon
-    while (i = 0 < pkmList.length)
+    for (i = 0; i < pkmList.length; i++)
     {
-        if (startSignal.pokemon == pkmList[i][0])
+        var p = pkmList[i];
+        if (startSignal.pokemon == p[0])
         {
-            playerPokemon = new Pokemon(pkmList[i][0], pkmList[i][1], pkmList[i][3], pkmList[i][4]);
-            for (j = 0; i < 4; i++) {
-                document.getElementById('m' + i).textContent = pkm.moves[i][0];
+            playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
+            for (j = 0; i < 4; i++)
+            {
+                document.getElementById('m' + i).value = playerPokemon.moves[i][0];
             }
             s1 = document.createElement('img');
             s1.src = pk1.sprite;
             document.getElementById('pk1').appendChild(s1);
-            document.getElementById('hp1').innerHTML = '<p>HP: ' + pk1.hp + '/' + pk1.fullhp + '</p>';
+            document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
         }
-        else if (startSignal.opponentPokemon == pkmList[i][0])
+        else if (startSignal.opponentPokemon == p[0])
         {
-            opponentPokemon = new Pokemon(pkmList[i][0], pkmList[i][2], pkmList[i][3], pkmList[i][4]);
-            s2 = document.createElement('img');
-            s2.src = pk2.sprite;
-            document.getElementById('pk2').appendChild(s2);
-            document.getElementById('hp2').innerHTML = '<p>HP: ' + pk2.hp + '/' + pk2.fullhp + '</p>';
+            opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
+            s1 = document.createElement('img');
+            s1.src = pk1.sprite;
+            document.getElementById('pk1').appendChild(s1);
+            document.getElementById('hp2').innerHTML = '<p>HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
         }
     }
     
@@ -187,24 +189,12 @@ function makeAttack(move)
                         {
                             case 0:
                                 scale = 0;
-                                setTimeout(function ()
-                                {
-                                    document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
-                                }, 1000);
                                 break;
                             case 1:
                                 scale = 2;
-                                setTimeout(function ()
-                                {
-                                    document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
-                                }, 1000);
                                 break;
                             case 2:
                                 scale = 0.5;
-                                setTimeout(function ()
-                                {
-                                    document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
-                                }, 1000);
                                 break;
                         }
                         break;
