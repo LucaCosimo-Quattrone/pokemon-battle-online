@@ -102,10 +102,11 @@ socket.on('startGame', (startSignal) => {
 	player = startSignal.tplayer;
     playerNickname = startSignal.nickname;
     opponentNickname = startSignal.opponent;
-    console.log(player);
+
     // Assign pokemon
     for (i = 0; i < pkmList.length; i++)
     {
+        console.log("dentro for --> " + player);
         var p = pkmList[i];
         for (k = 0; k < 3; k++)
 
