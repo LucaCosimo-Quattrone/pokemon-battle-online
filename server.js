@@ -19,6 +19,7 @@ var rooms = 0;
 var connectedUsers = 0;
 var usersArray = [];
 var pokemonArray = [];
+var namespace = '/';
 
 const PORT      = process.env.PORT || 8080;
 const listener  = server.listen(PORT, () =>
@@ -52,8 +53,8 @@ io.on('connection', socket => {
             var currentRoom = 'room'+rooms; 
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
-            console.log("   [*] --> "+info.nickname+' join '+currentRoom);
-            if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
+            console.log("   [*] --> " + info.nickname + ' join ' + currentRoom);
+            if (io.nsps[namespace].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
@@ -85,7 +86,7 @@ io.on('connection', socket => {
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
             console.log("   [*] --> "+info.nickname+' join '+currentRoom);
-            if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
+            if(io.nsps[namespace].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
