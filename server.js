@@ -20,7 +20,7 @@ var connectedUsers = 0;
 var usersArray = [];
 var pokemonArray = [];
 
-const PORT      = 8080;
+const PORT      = process.env.PORT || 8080;
 const listener  = server.listen(PORT, () =>
     console.log(`The server is listening on port: ${listener.address().port}`)
 );
