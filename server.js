@@ -107,7 +107,7 @@ io.on('connection', socket => {
                 // send startGame signal to the opponent
                 message = "Game started! Your opponent is "+info.nickname;
                 startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: info.nickname, playerPokemon: opponentPokemon, opponentPokemon: info.pokemon };
-                socket.broadcast.to(currentRoom).emit('startGame', startSignal);
+                socket.emit('startGame', startSignal);
             }
         }
         connectedUsers++;
