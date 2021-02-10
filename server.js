@@ -53,7 +53,7 @@ io.on('connection', socket => {
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
             console.log("   [*] --> "+info.nickname+' join '+currentRoom);
-            if(io.nsps["/"].adapter.rooms[currentRoom].length != 2)
+            if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
@@ -85,7 +85,7 @@ io.on('connection', socket => {
             var user = joinUser(socket.id, info.nickname, currentRoom);
             socket.join(currentRoom);
             console.log("   [*] --> "+info.nickname+' join '+currentRoom);
-            if(io.nsps["/"].adapter.rooms[currentRoom].length != 2)
+            if(io.nsps['/'].adapter.rooms[currentRoom].length != 2)
             {
                 // alone in the room, waiting for opponent
                 var informationMessage = "Waiting to find your opponent..";
