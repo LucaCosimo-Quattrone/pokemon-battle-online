@@ -77,7 +77,7 @@ function initGame()
 }
 
 // Used when a new user make the login with his nickname
-socket.emit('join', {nickname});
+socket.emit('join', { nickname }, {pokemon});
 
 // Used when one player is alone in the room
 socket.on('information', informationMessage => {

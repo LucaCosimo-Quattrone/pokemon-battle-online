@@ -32,7 +32,7 @@ io.on('connection', socket => {
 
     // endpoint used when a new user makes a connection
     // to the webserver
-    socket.on('join', ({ nickname }), ({ pokemon }) => {
+    socket.on('join', ({nickname}), ({pokemon}) => {
         console.log("[+] --> "+nickname+" joins game");
         usersArray.push(nickname);
         pokemonArray.push({
