@@ -107,7 +107,7 @@ socket.on('startGame', (startSignal) => {
     for (i = 0; i < pkmList.length; i++)
     {
         var p = pkmList[i];
-        if (startSignal.pokemon == p[0])
+        if (startSignal.playerPokemon == p[0])
         {
             playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
             for (j = 0; i < 4; i++)
