@@ -113,18 +113,15 @@ socket.on('startGame', (startSignal) => {
             for (j = 0; i < 4; i++)
             {
                 document.getElementById('m' + i).value = playerPokemon.moves[i][0];
+                console.log("dentro for");
             }
-            s1 = document.createElement('img');
-            s1.src = pk1.sprite;
-            document.getElementById('pk1').appendChild(s1);
+            document.getElementById('img1').src = playerPokemon.sprite;
             document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
         }
         else if (startSignal.opponentPokemon == p[0])
         {
             opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
-            s1 = document.createElement('img');
-            s1.src = pk1.sprite;
-            document.getElementById('pk1').appendChild(s1);
+            document.getElementById('img2').src = opponentPokemon.sprite;
             document.getElementById('hp2').innerHTML = '<p>HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
         }
     }
