@@ -103,7 +103,8 @@ socket.on('startGame', (startSignal) => {
             playerHp = playerPokemon.hp;
             playerFullHp = playerPokemon.fullhp;
         }
-        else if (startSignal.opponentPokemon == p[0])
+
+        if (startSignal.opponentPokemon == p[0])
         { 
             opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
             document.getElementById('img2').src = opponentPokemon.sprite;
@@ -121,15 +122,15 @@ socket.on('startGame', (startSignal) => {
 // Used to update the hp of the opponent after an attack
 socket.on('updateHp', (attack) => {
 
-    document.getElementById('informationLabel').textContent = attack.nickname + " used " + attack.move + "!";
-
-    if (player == attack.player) {
-        opponentHp = attack.opponentHp;
+    document.getElementById('informationLabel').textContent = attack.attacker + " used " + attack.move + "!";
+    if (player == attack.player)
+    {
+        opponentHp -= attack.power;
         document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
     }
     else
     {
-        playerHp = attack.opponentHp;
+        playerHp -= attack.power;
         document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
     }
 	turn++;
@@ -144,7 +145,7 @@ socket.on('showResult', (result) => {
 	document.getElementById('turnLabel').textContent = "";
 
 	// show the new game button
-	//$("#newGameButton").removeClass('invisible').addClass('visible');
+	$("#newGameButton").removeClass('invisible').addClass('visible');
 });
 
 function updateTurn()
@@ -170,7 +171,9 @@ function makeAttack(move)
                 if (playerPokemon.moves[i][0] == move)
                 {
                     var power = playerPokemon.moves[i][2];
-                    var attack = { attacker: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0], power: power }
+                    var attack = { attacker: nickname, player: 1, move: playerPokemon.moves[i][0], power: power }
+                    opponentHp -= power;
+                    document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -186,7 +189,9 @@ function makeAttack(move)
             for (i = 0; i < 4; i++) {
                 if (playerPokemon.moves[i][0] == move) {
                     var power = playerPokemon.moves[i][2];
-                    var attack = { attacker: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0], power: power }
+                    var attack = { attacker: nickname, player: 2, move: playerPokemon.moves[i][0], power: power }
+                    opponentHp -= power;
+                    document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -212,11 +217,11 @@ function checkVictoryCondition()
 	var winner = 0;
 	
     // first row
-    if (opponentHp == 0)
+    if (opponentHp <= 0)
 	{
 		winner = player;
     }
-    if (playerHp == 0)
+    if (playerHp <= 0)
     {
         if (player == 1)
         {
