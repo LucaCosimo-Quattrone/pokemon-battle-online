@@ -16,42 +16,24 @@ class Pokemon {
 
 var pkmList = [
     ['Charizard', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charizard.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/charizard.gif", 360, [
-        ['Flamethrower', 'fire', 95, 0.95],
-        ['Dragon Claw', 'dragon', 80, 0.95],
-        ['Air slash', 'fly', 75, 0.85],
-        ['Slash', 'normal', 70,]
+        ['Flamethrower', 'fire', 95],
+        ['Dragon Claw', 'dragon', 80],
+        ['Air slash', 'fly', 75],
+        ['Slash', 'normal', 70]
     ]],
     ['Blastoise', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/blastoise.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif", 362, [
-        ['Surf', 'water', 90, 0.95],
-        ['Crunch', 'normal', 80, 0.95],
-        ['Ice punch', 'ice', 75, 0.95],
-        ['Flash cannon', 'steel', 80, 0.95]
+        ['Surf', 'water', 90],
+        ['Crunch', 'normal', 80],
+        ['Ice punch', 'ice', 75],
+        ['Flash cannon', 'steel', 80]
     ]],
     ['Venusaur', "https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur-f.gif", "https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur-f.gif", 364, [
-        ['Petal Blizzard', 'grass', 90, 0.95],
-        ['Sludge bomb', 'poison', 90, 0.95],
-        ['Earthquake', 'ground', 100, 0.95],
-        ['Body Slam', 'normal', 85, 0.95]
+        ['Petal Blizzard', 'grass', 90],
+        ['Sludge bomb', 'poison', 90],
+        ['Earthquake', 'ground', 100],
+        ['Body Slam', 'normal', 85]
     ]]
 ];
-
-var typeMatch = {
-    'Charizard': [
-        ['ground'], // 0 no effect (0x dmg)
-        ['water', 'rock'], // 1 weak (2x dmg)
-        ['fire', 'grass', 'steel'] // 2 strong (0.5x dmg)
-    ],
-    'Blastoise': [
-        [''],
-        ['grass'],
-        ['fire', 'water']
-    ],
-    'Venusaur': [
-        ['poison'],
-        ['fire', 'fly', 'ice', 'steel'],
-        ['grass', 'water']
-    ],
-}
 
 var i,
     j,
@@ -62,7 +44,6 @@ var i,
     playerNickname,
     playerPokemon,
     playerHp,
-    playerMove,
     opponentNickname,
     opponentPokemon,
     opponentHp;
@@ -108,7 +89,6 @@ socket.on('startGame', (startSignal) => {
     for (i = 0; i < pkmList.length; i++)
     {
         var p = pkmList[i];
-        console.log("il pokemon attuale --> " + p[0] + " pokemon nemico --> " + startSignal.opponentPokemon);
         if (startSignal.playerPokemon == p[0])
         {
             playerPokemon = new Pokemon(p[0], p[1], p[3], p[4]);
@@ -117,13 +97,15 @@ socket.on('startGame', (startSignal) => {
                 document.getElementById('m' + j).value = playerPokemon.moves[j][0];
             }
             document.getElementById('img1').src = playerPokemon.sprite;
-            document.getElementById('hp1').innerHTML = '<p>HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
+            document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
+            playerHp = playerPokemon.hp;
         }
         else if (startSignal.opponentPokemon == p[0])
         { 
             opponentPokemon = new Pokemon(p[0], p[2], p[3], p[4]);
             document.getElementById('img2').src = opponentPokemon.sprite;
-            document.getElementById('hp2').innerHTML = '<p>HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
+            document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
+            opponentHp = opponentPokemon.hp;
         }
     }
     
@@ -134,9 +116,19 @@ socket.on('startGame', (startSignal) => {
 
 // Used to update the hp of the opponent after an attack
 socket.on('updateHp', (attack) => {
-    if (player == attack.player)
+
+    document.getElementById('informationLabel').textContent = attack.nickname + " used " + attack.move + "!";
+
+    if (player == attack.player) {
+        opponentHp = attack.opponentHp;
+        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentHp.fullhp + '</p>';
+        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerPokemon.fullhp + '</p>';
+    }
+    else
     {
-        playerHp = attack.opponentHp
+        playerHp = attack.opponentHp;
+        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerPokemon.fullhp + '</p>';
+        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentHp.fullhp + '</p>';
     }
 	turn++;
 	updateTurn();
@@ -171,105 +163,53 @@ function makeAttack(move)
     {
         if (game_started == 1)
         {
-            if (Math.random() < move[3])
+            for (i = 0; i < 4; i++)
             {
-                let power = move[2] += Math.floor(Math.random() * 10);
-                let receiverType = typeMatch[opponentPokemon[0]];
-                let moveType = move[1];
-                let scale = 1;
-
-                for (i = 0; i < rtype.length; i++)
+                if (playerPokemon.moves[i][0] == move)
                 {
-                    if (receiverType[i].includes(moveType))
-                    {
-                        switch (i)
-                        {
-                            case 0:
-                                scale = 0;
-                                break;
-                            case 1:
-                                scale = 2;
-                                break;
-                            case 2:
-                                scale = 0.5;
-                                break;
-                        }
-                        break;
-                    }
-                }
-
-                power *= scale;
-                opponentHp -= Math.floor(power);
-
-                var attack = { nickname: nickname, opponentHp: opponentHp, player: 2 }
-                socket.emit('attackDone', attack);
-                turn++;
-                updateTurn();
-            }
-        } else if (player == 2 & turn % 2 != 0)
-        {
-            if (game_started == 1)
-            {
-                if (Math.random() < move[3])
-                {
-                    let power = move[2] += Math.floor(Math.random() * 10);
-                    let rtype = typeMatch[receiver.name];
-                    let mtype = move[1];
-                    let scale = 1;
-
-                    for (i = 0; i < rtype.length; i++)
-                    {
-                        if (rtype[i].includes(mtype))
-                        {
-                            switch (i)
-                            {
-                                case 0:
-                                    scale = 0;
-                                    setTimeout(function ()
-                                    {
-                                        document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
-                                    }, 1000);
-                                    break;
-                                case 1:
-                                    scale = 2;
-                                    setTimeout(function ()
-                                    {
-                                        document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
-                                    }, 1000);
-                                    break;
-                                case 2:
-                                    scale = 0.5;
-                                    setTimeout(function ()
-                                    {
-                                        document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
-                                    }, 1000);
-                                    break;
-                            }
-                            break;
-                        }
-                    }
-                    power *= scale;
+                    var power = playerPokemon.moves[i][2];
                     opponentHp -= Math.floor(power);
-
-                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 1 }
+                    console.log(opponentHp);
+                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0] }
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
+                    break;
                 }
             }
-
-            // player 1 win
-            if (checkVictoryCondition() == 1 & player == 1) {
-                socket.emit('result', { nickname: nickname, result: 1 });
+        }
+    }
+    else if (player == 2 & turn % 2 != 0)
+    {
+        if (game_started == 1) {
+            for (i = 0; i < 4; i++) {
+                if (playerPokemon.moves[i][0] == move) {
+                    var power = playerPokemon.moves[i][2];
+                    opponentHp -= Math.floor(power);
+                    console.log(opponentHp);
+                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0]}
+                    socket.emit('attackDone', attack);
+                    turn++;
+                    updateTurn();
+                    break;
+                }
             }
-            // player 2 win
-            if (checkVictoryCondition() == 2 & player == 2) {
-                socket.emit('result', { nickname: nickname, result: 2 });
-            }
+        }
+    }
 
+        // player 1 win
+        if (checkVictoryCondition() == 1 & player == 1) {
+
+            console.log("vittoria 1");
+            socket.emit('result', { nickname: nickname, result: 1 });
+        }
+        // player 2 win
+        if (checkVictoryCondition() == 2 & player == 2) {
+
+            console.log("vittoria 2");
+            socket.emit('result', { nickname: nickname, result: 2 });
         }
 
-    }
 }
 
 function checkVictoryCondition()

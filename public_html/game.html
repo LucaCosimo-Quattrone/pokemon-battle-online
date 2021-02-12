@@ -1,96 +1,99 @@
-﻿<!DOCTYPE html> 
+﻿<!DOCTYPE html>
 
 <html>
 
-	<head>
-        <link rel="icon" href="./images/icon.png">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <link rel="icon" href="./images/icon.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Pokemon battle</title>
-        
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-       
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<title>Pokemon battle</title>
-		<script src="/socket.io/socket.io.js"></script>
-        <script src="script.js"></script>
-	</head>
+    <title>Pokemon battle</title>
 
-    <body>
-        <div class="container-fluid" style="min-height: 100vh">
-            <div class="row" style="background-color: rgb(129, 129, 129); min-height: 100vh">
-                <div class="col-5" style="background-color: white">
-                    <div class="row align-items-center h-100">
-                        <table align="center">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Pokemon battle</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" style="min-height: 100vh">
+        <div class="row" style="background-color: rgb(129, 129, 129); min-height: 100vh">
+            <div class="col-8 divbg" style="background-color: white; background-image: url(./../images/grass-bg.png); background-size: cover; min-height: 100vh">
+                <div class="row h-100">
+                    <div class="col-md-4 align-self-end">
+                        <table id="player">
                             <tr>
-                                <td id='hp1'></td>
-                                <td id='hp2'></td>
+                                <td class="col-md-4" id='hp1'></td>
                             </tr>
                             <tr>
-                                <td id='pk1'><img src="./../images/quadrato-bianco.jpg" id="img1" /></td>
-                                <td id='pk2'><img src="./../images/quadrato-bianco.jpg" id="img2" /></td>
+                                <td><img src="./../images/loading.gif" id="img1" /></td>
+                                <td>
+                                    <input type='button' class='btn btn-primary btn-xs btn-block' id='m0' onclick="makeAttack(this.value)">
+                                    <input type='button' class='btn btn-primary btn-xs btn-block' id='m1' onclick="makeAttack(this.value)">
+                                </td>
+                                <td>
+                                    <input type='button' class='btn btn-primary btn-xs btn-block' id='m2' onclick="makeAttack(this.value)">
+                                    <input type='button' class='btn btn-primary btn-xs btn-block' id='m3' onclick="makeAttack(this.value)">
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan='2' id='comment'></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <input type='button' class='btn btn-primary btn-xl' id='m0'>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='button' class='btn btn-primary btn-xl' id='m1'>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='button' class='btn btn-primary btn-xl' id='m2'>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='button' class='btn btn-primary btn-xl' id='m3'>
-
-                                </td>
-                            </tr>
                         </table>
                     </div>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-5 text-center" style="min-height: 100vh">
-                    <div class="row w-100 h-25 justify-content-center align-items-center" style="background-color: rgb(129, 129, 129)">
-                        <div class="w-100 justify-content-center align-items-center">
-                            <p class="display-4 text-light" style="font-size: 4vw" id="nicknameLabel"></p>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-end">
+                        <div class="row">
+                            <table id="opponent">
+                                <tr>
+                                    <td id='hp2'></td>
+                                </tr>
+                                <tr>
+                                    <td id='pk2'><img src="./../images/loading.gif" id="img2" /></td>
+                                </tr>
+                            </table>
                         </div>
-                    </div>
-                    <div class="row w-100 h-25 text-center" style="background-color: rgb(129, 129, 129)">
-                        <div class="text-center w-100">
-                            <p class="display-4" id="informationLabel" style="font-size: 3vw"></p>
-                        </div>
-                    </div>
-                    <div class="row w-100 h-25 text-center" style="background-color: rgb(129, 129, 129)">
-                        <div class="text-center w-100">
-                            <p class="display-4 font-italic" style="font-size: 3vw" id="turnLabel"></p>
-                        </div>
-                    </div>
-                    <div class="row w-100 h-25" id="newGameLabel" style="background-color: rgb(129, 129, 129)">
-                        <div class="text-center w-100">
-                            <a href="index.html" id="newGameButton" class="btn btn-primary btn-xl invisible">New game!</a>
+                        <div class="row">
+                            <span class="border"
+                                <p class="display-4" id="informationLabel" style="font-size: 3vw"></p>
+                            </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-1"></div>
+            </div>
+            <div class="col-4 text-center">
+                <div class="row w-100 h-25 justify-content-center align-items-center" style="background-color: rgb(129, 129, 129)">
+                    <div class="w-100 justify-content-center align-items-center">
+                        <p class="display-4 text-light" style="font-size: 4vw" id="nicknameLabel"></p>
+                    </div>
+                </div>
+                <div class="row w-100 h-25 text-center" style="background-color: rgb(129, 129, 129)">
+                    <div class="text-center w-100">
+                        <p class="display-4" id="informationLabel" style="font-size: 3vw"></p>
+                    </div>
+                </div>
+                <div class="row w-100 h-25 text-center" style="background-color: rgb(129, 129, 129)">
+                    <div class="text-center w-100">
+                        <p class="display-4 font-italic" style="font-size: 3vw" id="turnLabel"></p>
+                    </div>
+                </div>
+                <div class="row w-100 h-25" id="newGameLabel" style="background-color: rgb(129, 129, 129)">
+                    <div class="text-center w-100">
+                        <a href="index.html" id="newGameButton" class="btn btn-primary btn-xl invisible">New game!</a>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <div class="col-1"></div>
+    </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
 </html>

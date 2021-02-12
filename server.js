@@ -63,12 +63,12 @@ io.on('connection', socket => {
                 // send startGame signal to the player
                 var opponent = usersArray[(usersArray.length - 2)];
                 var opponentPokemon = pokemonArray[(pokemonArray.length - 2)];
-                var message = "Game started! Your opponent is " + opponent;
+                var message = opponent;
                 var startSignal = { message: message, tplayer: 2, nickname: info.nickname, opponent: opponent, playerPokemon: info.pokemon, opponentPokemon: opponentPokemon };
                 socket.emit('startGame', startSignal);
 
                 // send startGame signal to the opponent
-                message = "Game started! Your opponent is " + info.nickname;
+                message = info.nickname;
                 startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: info.nickname, playerPokemon: opponentPokemon, opponentPokemon: info.pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
 
@@ -99,12 +99,12 @@ io.on('connection', socket => {
                 var opponent = usersArray[(usersArray.length - 2)];
                 var opponentPokemon = pokemonArray[(pokemonArray.length - 2)];
 
-                var message = "Game started! Your opponent is "+opponent;
+                var message = opponent;
                 var startSignal = { message: message, tplayer: 2, nickname: info.nickname, opponent: opponent, playerPokemon: info.pokemon, opponentPokemon: opponentPokemon};
                 socket.emit('startGame', startSignal);
                 
                 // send startGame signal to the opponent
-                message = "Game started! Your opponent is "+info.nickname;
+                message = info.nickname;
                 startSignal = { message: message, tplayer: 1, nickname: opponent, opponent: info.nickname, playerPokemon: opponentPokemon, opponentPokemon: info.pokemon };
                 socket.broadcast.to(currentRoom).emit('startGame', startSignal);
             }
