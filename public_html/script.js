@@ -126,13 +126,11 @@ socket.on('updateHp', (attack) => {
     if (player == attack.player) {
         opponentHp = attack.opponentHp;
         document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
-        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
     }
     else
     {
         playerHp = attack.opponentHp;
-        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
-        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
+        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
     }
 	turn++;
 	updateTurn();
@@ -172,7 +170,7 @@ function makeAttack(move)
                 if (playerPokemon.moves[i][0] == move)
                 {
                     var power = playerPokemon.moves[i][2];
-                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0], power: power }
+                    var attack = { attacker: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0], power: power }
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -188,7 +186,7 @@ function makeAttack(move)
             for (i = 0; i < 4; i++) {
                 if (playerPokemon.moves[i][0] == move) {
                     var power = playerPokemon.moves[i][2];
-                    var attack = { nickname: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0], power: power }
+                    var attack = { attacker: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0], power: power }
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
