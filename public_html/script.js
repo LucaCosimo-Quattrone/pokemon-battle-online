@@ -35,6 +35,24 @@ var pkmList = [
     ]]
 ];
 
+var typeMatch = {
+    'Charizard': [
+        ['ground'],
+        ['water', 'rock'],
+        ['fire', 'grass', 'steel']
+    ],
+    'Blastoise': [
+        [''],
+        ['grass'],
+        ['fire', 'water']
+    ],
+    'Venusaur': [
+        ['poison'],
+        ['fire', 'fly', 'ice', 'steel'],
+        ['grass', 'water']
+    ],
+}
+
 var i,
     j,
     k,
@@ -170,9 +188,48 @@ function makeAttack(move)
             {
                 if (playerPokemon.moves[i][0] == move)
                 {
-                    var power = playerPokemon.moves[i][2];
+                    var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
+                    var rtype = typeMatch[opponentPokemon.name];
+                    var mtype = move[1];
+                    var scale = 1;
+
+                    for (i = 0; i < rtype.length; i++)
+                    {
+                        if (rtype[i].includes(mtype))
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    scale = 0;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
+                                    }, 1000);
+                                    break;
+                                case 1:
+                                    scale = 2;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
+                                    }, 1000);
+                                    break;
+                                case 2:
+                                    scale = 0.5;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
+                                    }, 1000);
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                    power *= scale;
+                    opponentHp -= Math.floor(power);
+
+                    console.log(playerPokemon.moves[i][0]);
+
                     var attack = { attacker: nickname, player: 1, move: playerPokemon.moves[i][0], power: power }
-                    opponentHp -= power;
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
                     socket.emit('attackDone', attack);
                     turn++;
@@ -188,9 +245,46 @@ function makeAttack(move)
         if (game_started == 1) {
             for (i = 0; i < 4; i++) {
                 if (playerPokemon.moves[i][0] == move) {
-                    var power = playerPokemon.moves[i][2];
+                    var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
+                    var rtype = typeMatch[opponentPokemon.name];
+                    var mtype = move[1];
+                    var scale = 1;
+
+                    for (i = 0; i < rtype.length; i++)
+                    {
+                        if (rtype[i].includes(mtype))
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    scale = 0;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
+                                    }, 1000);
+                                    break;
+                                case 1:
+                                    scale = 2;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
+                                    }, 1000);
+                                    break;
+                                case 2:
+                                    scale = 0.5;
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
+                                    }, 1000);
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                    power *= scale;
+                    opponentHp -= Math.floor(power);
+                    console.log(playerPokemon.moves[i][0]);
                     var attack = { attacker: nickname, player: 2, move: playerPokemon.moves[i][0], power: power }
-                    opponentHp -= power;
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
                     socket.emit('attackDone', attack);
                     turn++;

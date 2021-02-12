@@ -8,12 +8,6 @@ html, body {
     height: 100%;
 }
 
-.btn-xl {
-    padding: 10px 20px;
-    font-size: 40px;
-    border-radius: 10px;
-}
-
 .login-form {
     width: 340px;
     margin: 50px auto;
@@ -30,14 +24,9 @@ html, body {
     margin: 0 0 15px;
 }
 
-.form-control, .btn {
+.form-control {
     min-height: 38px;
     border-radius: 2px;
-}
-
-.btn {
-    font-size: 15px;
-    font-weight: bold;
 }
 
 body {
