@@ -193,25 +193,32 @@ function makeAttack(move)
                     var mtype = playerPokemon.moves[i][1];
                     var scale = 1;
 
-                    for (j = 0; j < rtype.length; j++) {
-                        if (rtype[j].includes(mtype)) {
-                            switch (j) {
+                    // Obtain scale from the weakness (or strenght) of the opponent pokemon
+                    for (j = 0; j < rtype.length; j++)
+                    {
+                        if (rtype[j].includes(mtype))
+                        {
+                            switch (j)
+                            {
                                 case 0:
                                     scale = 0;
-                                    setTimeout(function () {
-                                        document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p class="text-white">It had no effect!</p>';
                                     }, 1000);
                                     break;
                                 case 1:
                                     scale = 2;
-                                    setTimeout(function () {
-                                        document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p class="text-white">It was super effective!</p>';
                                     }, 1000);
                                     break;
                                 case 2:
                                     scale = 0.5;
-                                    setTimeout(function () {
-                                        document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
+                                    setTimeout(function ()
+                                    {
+                                        document.getElementById('comment').innerHTML = '<p class="text-white">It was not very effective!</p>';
                                     }, 1000);
                                     break;
                             }
@@ -234,14 +241,18 @@ function makeAttack(move)
 
     else if (player == 2 & turn % 2 != 0)
     {
-        if (game_started == 1) {
-            for (i = 0; i < 4; i++) {
-                if (playerPokemon.moves[i][0] == move) {
+        if (game_started == 1)
+        {
+            for (i = 0; i < 4; i++)
+            {
+                if (playerPokemon.moves[i][0] == move)
+                {
                     var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
                     var rtype = typeMatch[opponentPokemon.name];
                     var mtype = playerPokemon.moves[i][1];
                     var scale = 1;
 
+                    // Obtain scale from the weakness (or strenght) of the opponent pokemon
                     for (j = 0; j < rtype.length; j++)
                     {
 
@@ -275,10 +286,13 @@ function makeAttack(move)
                         }
                     }
 
+                    // Obtain the new opponent hp
                     power *= scale;
                     opponentHp -= Math.floor(power);
                     var attack = { attacker: nickname, player: 2, move: playerPokemon.moves[i][0], power: power }
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
+
+                    // Send the result of the attack to the server
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
