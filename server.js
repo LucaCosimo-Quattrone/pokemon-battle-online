@@ -63,7 +63,6 @@ io.on('connection', socket => {
                 // send startGame signal to the player
                 var opponent = usersArray[(usersArray.length - 2)];
                 var opponentPokemon = pokemonArray[(pokemonArray.length - 2)];
-
                 var message = "Game started! Your opponent is " + opponent;
                 var startSignal = { message: message, tplayer: 2, nickname: info.nickname, opponent: opponent, playerPokemon: info.pokemon, opponentPokemon: opponentPokemon };
                 socket.emit('startGame', startSignal);
