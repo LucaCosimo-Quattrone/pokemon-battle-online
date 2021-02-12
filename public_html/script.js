@@ -190,33 +190,27 @@ function makeAttack(move)
                 {
                     var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
                     var rtype = typeMatch[opponentPokemon.name];
-                    var mtype = move[1];
+                    var mtype = playerPokemon.moves[i][1];
                     var scale = 1;
 
-                    for (i = 0; i < rtype.length; i++)
-                    {
-                        if (rtype[i].includes(mtype))
-                        {
-                            switch (i)
-                            {
+                    for (j = 0; j < rtype.length; j++) {
+                        if (rtype[j].includes(mtype)) {
+                            switch (j) {
                                 case 0:
                                     scale = 0;
-                                    setTimeout(function ()
-                                    {
+                                    setTimeout(function () {
                                         document.getElementById('comment').innerHTML = '<p>It had no effect!</p>';
                                     }, 1000);
                                     break;
                                 case 1:
                                     scale = 2;
-                                    setTimeout(function ()
-                                    {
+                                    setTimeout(function () {
                                         document.getElementById('comment').innerHTML = '<p>It was super effective!</p>';
                                     }, 1000);
                                     break;
                                 case 2:
                                     scale = 0.5;
-                                    setTimeout(function ()
-                                    {
+                                    setTimeout(function () {
                                         document.getElementById('comment').innerHTML = '<p>It was not very effective!</p>';
                                     }, 1000);
                                     break;
@@ -226,8 +220,6 @@ function makeAttack(move)
                     }
                     power *= scale;
                     opponentHp -= Math.floor(power);
-
-                    console.log(playerPokemon.moves[i][0]);
 
                     var attack = { attacker: nickname, player: 1, move: playerPokemon.moves[i][0], power: power }
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
@@ -247,14 +239,15 @@ function makeAttack(move)
                 if (playerPokemon.moves[i][0] == move) {
                     var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
                     var rtype = typeMatch[opponentPokemon.name];
-                    var mtype = move[1];
+                    var mtype = playerPokemon.moves[i][1];
                     var scale = 1;
 
-                    for (i = 0; i < rtype.length; i++)
+                    for (j = 0; j < rtype.length; j++)
                     {
-                        if (rtype[i].includes(mtype))
+
+                        if (rtype[j].includes(mtype))
                         {
-                            switch (i)
+                            switch (j)
                             {
                                 case 0:
                                     scale = 0;
@@ -281,9 +274,9 @@ function makeAttack(move)
                             break;
                         }
                     }
+
                     power *= scale;
                     opponentHp -= Math.floor(power);
-                    console.log(playerPokemon.moves[i][0]);
                     var attack = { attacker: nickname, player: 2, move: playerPokemon.moves[i][0], power: power }
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
                     socket.emit('attackDone', attack);
