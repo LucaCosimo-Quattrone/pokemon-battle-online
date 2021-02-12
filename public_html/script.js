@@ -44,9 +44,11 @@ var i,
     playerNickname,
     playerPokemon,
     playerHp,
+    playerFullHp,
     opponentNickname,
     opponentPokemon,
-    opponentHp;
+    opponentHp,
+    opponentFullHp;
 
 initGame();
 
@@ -99,6 +101,7 @@ socket.on('startGame', (startSignal) => {
             document.getElementById('img1').src = playerPokemon.sprite;
             document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerPokemon.hp + '/' + playerPokemon.fullhp + '</p>';
             playerHp = playerPokemon.hp;
+            playerFullHp = playerPokemon.fullhp;
         }
         else if (startSignal.opponentPokemon == p[0])
         { 
@@ -106,6 +109,7 @@ socket.on('startGame', (startSignal) => {
             document.getElementById('img2').src = opponentPokemon.sprite;
             document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentPokemon.hp + '/' + opponentPokemon.fullhp + '</p>';
             opponentHp = opponentPokemon.hp;
+            opponentFullHp = opponentPokemon.fullhp;
         }
     }
     
@@ -121,14 +125,14 @@ socket.on('updateHp', (attack) => {
 
     if (player == attack.player) {
         opponentHp = attack.opponentHp;
-        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentHp.fullhp + '</p>';
-        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerPokemon.fullhp + '</p>';
+        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
+        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
     }
     else
     {
         playerHp = attack.opponentHp;
-        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerPokemon.fullhp + '</p>';
-        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentHp.fullhp + '</p>';
+        document.getElementById('hp1').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
+        document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + playerHp + '/' + playerFullHp + '</p>';
     }
 	turn++;
 	updateTurn();
@@ -168,9 +172,7 @@ function makeAttack(move)
                 if (playerPokemon.moves[i][0] == move)
                 {
                     var power = playerPokemon.moves[i][2];
-                    opponentHp -= Math.floor(power);
-                    console.log(opponentHp);
-                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0] }
+                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 1, move: playerPokemon.moves[i][0], power: power }
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -179,15 +181,14 @@ function makeAttack(move)
             }
         }
     }
+
     else if (player == 2 & turn % 2 != 0)
     {
         if (game_started == 1) {
             for (i = 0; i < 4; i++) {
                 if (playerPokemon.moves[i][0] == move) {
                     var power = playerPokemon.moves[i][2];
-                    opponentHp -= Math.floor(power);
-                    console.log(opponentHp);
-                    var attack = { nickname: nickname, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0]}
+                    var attack = { nickname: nickname, playerHp: playerHp, opponentHp: opponentHp, player: 2, move: playerPokemon.moves[i][0], power: power }
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -197,19 +198,15 @@ function makeAttack(move)
         }
     }
 
-        // player 1 win
-        if (checkVictoryCondition() == 1 & player == 1) {
-
-            console.log("vittoria 1");
-            socket.emit('result', { nickname: nickname, result: 1 });
-        }
-        // player 2 win
-        if (checkVictoryCondition() == 2 & player == 2) {
-
-            console.log("vittoria 2");
-            socket.emit('result', { nickname: nickname, result: 2 });
-        }
-
+    // Check win
+    if (checkVictoryCondition() == 1 & player == 1)
+    {
+        socket.emit('result', { nickname: nickname, result: 1 });
+    }
+    if (checkVictoryCondition() == 2 & player == 2)
+    {
+        socket.emit('result', { nickname: nickname, result: 2 });
+    }
 }
 
 function checkVictoryCondition()
