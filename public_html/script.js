@@ -55,7 +55,6 @@ var typeMatch = {
 
 var i,
     j,
-    k,
     turn,
     game_started,
     player,
@@ -159,7 +158,7 @@ socket.on('updateHp', (attack) => {
 socket.on('showResult', (result) => {
 	// game is ended
 	game_started = 0;
-	document.getElementById('informationLabel').textContent = result;
+	document.getElementById('resultLabel').textContent = result;
 	document.getElementById('turnLabel').textContent = "";
 
 	// show the new game button
@@ -211,14 +210,14 @@ function makeAttack(move)
                                     scale = 2;
                                     setTimeout(function ()
                                     {
-                                        document.getElementById('comment').innerHTML = '<p class="text-white">It was super effective!</p>';
+                                        document.getElementById('comment').innerHTML = '<p class="text-warning">It was super effective!</p>';
                                     }, 1000);
                                     break;
                                 case 2:
                                     scale = 0.5;
                                     setTimeout(function ()
                                     {
-                                        document.getElementById('comment').innerHTML = '<p class="text-white">It was not very effective!</p>';
+                                        document.getElementById('comment').innerHTML = '<p class="text-danger">It was not very effective!</p>';
                                     }, 1000);
                                     break;
                             }
