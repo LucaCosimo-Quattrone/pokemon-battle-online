@@ -1,7 +1,7 @@
 {
   "name": "pokemon-game",
   "version": "1.0.0",
-  "description": "Rock Paper Scissor online game",
+  "description": "Pokemon online game",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LucaCosimo-Quattrone/rps-game-s.git"
+    "url": "git+https://github.com/LucaCosimo-Quattrone/pokemon-battle-online.git"
   },
   "author": "Luca Cosimo Quattrone",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LucaCosimo-Quattrone/rps-game-s/issues"
+    "url": "https://github.com/LucaCosimo-Quattrone/pokemon-battle-online/issues"
   },
-  "homepage": "https://github.com/LucaCosimo-Quattrone/rps-game-s#readme",
+  "homepage": "https://github.com/LucaCosimo-Quattrone/pokemon-battle-online#readme",
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^2.4.1"
