@@ -77,7 +77,7 @@ function initGame()
     player = 0;
 }
 
-// Used when a new user make the login with his nickname
+// Used when a new user make the login with his nickname and pokemon
 var info = {nickname: nickname, pokemon: pokemon}
 socket.emit('join', info);
 
@@ -187,6 +187,7 @@ function makeAttack(move)
             {
                 if (playerPokemon.moves[i][0] == move)
                 {
+                    // Randomize the static power of one move
                     var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
                     var rtype = typeMatch[opponentPokemon.name];
                     var mtype = playerPokemon.moves[i][1];
@@ -224,11 +225,14 @@ function makeAttack(move)
                             break;
                         }
                     }
+
+                    // Obtain the new opponent hp
                     power *= scale;
                     opponentHp -= Math.floor(power);
-
                     var attack = { attacker: nickname, player: 1, move: playerPokemon.moves[i][0], power: power }
                     document.getElementById('hp2').innerHTML = '<p class="text-white">HP: ' + opponentHp + '/' + opponentFullHp + '</p>';
+
+                    // Send the result of the attack to the server
                     socket.emit('attackDone', attack);
                     turn++;
                     updateTurn();
@@ -246,6 +250,7 @@ function makeAttack(move)
             {
                 if (playerPokemon.moves[i][0] == move)
                 {
+                    // Randomize the static power of one move
                     var power = playerPokemon.moves[i][2] += Math.floor(Math.random() * 10);;
                     var rtype = typeMatch[opponentPokemon.name];
                     var mtype = playerPokemon.moves[i][1];
@@ -314,9 +319,8 @@ function makeAttack(move)
 
 function checkVictoryCondition()
 {
-	var winner = 0;
-	
-    // first row
+    var winner = 0;
+
     if (opponentHp <= 0)
 	{
 		winner = player;

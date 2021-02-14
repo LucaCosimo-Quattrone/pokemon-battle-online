@@ -112,7 +112,7 @@ io.on('connection', socket => {
         connectedUsers++;
     });
 
-    // endpoint used when one player makes a move
+    // endpoint used when one player makes an attack
     // notify to the other player of the room which
     // cell has to be updated
     socket.on('attackDone', (attack) => {
@@ -121,8 +121,7 @@ io.on('connection', socket => {
     });
 
     // endpoint used when the player who made
-    // last move win the game or the game ended
-    // in a draw
+    // last attack win the game 
     socket.on('result', (result) => { 
         socket.emit('showResult', result.nickname+", you win!");
         var user = getUserById(socket.id);
