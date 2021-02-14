@@ -1,2 +1,2 @@
-# rps-game
- rock paper scissor online game
+# Pokemon battle game
+Multiplayer pokemon game for school use
